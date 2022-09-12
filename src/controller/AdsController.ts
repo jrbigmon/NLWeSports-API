@@ -1,6 +1,7 @@
 const AdsController ={
-    getAds: (req, res) => {
-        res.json({msg: 'Hello World!'})
+    // get all ads
+    getAds: (req: any, res: any) => {
+        return res.json({msg: 'Hello World!'})
     }
 }
 export default AdsController
