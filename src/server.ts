@@ -5,7 +5,7 @@ const app = express()
 const port = 3000
 const baseURL = "/nlw/api"
 // routes
-import AdsRouter from './router/AdsRouter.mjs'
+import AdsRouter from './router/AdsRouter.js'
 
 app.use(baseURL, AdsRouter)
 
