@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsnd src/server.ts"
+    "dev": "tsnd --exit-clild src/server.ts"
   },
   "keywords": [],
   "author": "",
