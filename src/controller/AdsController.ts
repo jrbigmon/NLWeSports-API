@@ -39,7 +39,12 @@ const AdsController ={
                 }
             })
             
-            return res.json(ads)
+            return res.json(ads.map(ad => {
+                return {
+                    ...ad,
+                    weekDays: ad.weekDays.split(',')
+                }
+            }))
         } catch (error) {
             return res.status(500).json({message: 'Failed access database'})
         }
