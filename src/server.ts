@@ -8,9 +8,11 @@ const baseURL = "/nlw/api"
 
 // routes
 import AdsRouter from './router/AdsRouter'
+import GamesRouter from './router/GamesRouter'
 
 // run routes
 app.use(baseURL, AdsRouter)
+app.use(baseURL, GamesRouter)
 
 // run server
 app.listen(port, () => console.log('listening on port ' + port))
