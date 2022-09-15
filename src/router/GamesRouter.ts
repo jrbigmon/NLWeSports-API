@@ -6,5 +6,6 @@ import GamesController from '../controller/GamesController'
 
 //routes
 router.get('/games', GamesController.getGames)
+router.get('/games/:id', GamesController.getGame)
 
 export default router

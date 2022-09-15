@@ -18,10 +18,10 @@ const GamesController = {
         try {
             const { id } = req.params
 
-            const game = await prisma.game.findUnique(id)
+            const game = await prisma.game.findUnique({ where: { id } })
 
             if(!game) return res.status(404).json({message: 'No game found'})
-            
+
             return res.json(game) 
         } catch (error) {
             return res.status(500).json({message: 'Failed access database'})
