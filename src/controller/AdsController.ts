@@ -33,6 +33,9 @@ const AdsController ={
                 where: { gameId },
                 include: {
                     game: true
+                },
+                orderBy: {
+                    createdAt: 'desc'
                 }
             })
             
