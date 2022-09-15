@@ -31,8 +31,16 @@ const AdsController ={
 
             const ads = await prisma.ad.findMany({
                 where: { gameId },
-                include: {
-                    game: true
+                select: {
+                    id: true,
+                    gameId: true,
+                    hourStart: true,
+                    hourEnd: true,
+                    name: true,
+                    useVoiceChannel: true,
+                    yearsPlaying: true,
+                    weekDays: true,
+                    game: true,
                 },
                 orderBy: {
                     createdAt: 'desc'
@@ -48,6 +56,18 @@ const AdsController ={
         } catch (error) {
             return res.status(500).json({message: 'Failed access database'})
         }
-    }
+    },
+
+    getDiscordByAdId: async( req: any, res: any) => {
+        try {
+            const { id } = req.params
+            
+            const ad = await prisma.ad.findUniqueOrThrow({ where: { id } })
+            
+            return res.json(ad.discord)
+        } catch (error) {
+            return res.status(500).json({message: 'Failed access database'})
+        }
+    }   
 }
 export default AdsController
