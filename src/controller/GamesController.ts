@@ -6,7 +6,13 @@ const prisma = new PrismaClient()
 const GamesController = {
     getGames: async (req: any, res: any) => {
         try {
-            const games =  await prisma.game.findMany()
+            const games =  await prisma.game.findMany({
+                include: {
+                    _count: {
+                        select:{ ads: true}
+                    },
+                }
+            })
             
             return res.json(games)
         } catch (error) {
