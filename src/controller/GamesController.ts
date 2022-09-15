@@ -4,8 +4,28 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const GamesController = {
-    getGames: (req: any, res: any) => {
+    getGames: async (req: any, res: any) => {
+        try {
+            const games =  await prisma.game.findMany()
+            
+            return res.json(games)
+        } catch (error) {
+            return res.status(500).json({message: 'Failed access database'})
+        }
+    },
 
+    getGame: async (req: any, res: any) => {
+        try {
+            const { id } = req.params
+
+            const game = await prisma.game.findUnique(id)
+
+            if(!game) return res.status(404).json({message: 'No game found'})
+            
+            return res.json(game) 
+        } catch (error) {
+            return res.status(500).json({message: 'Failed access database'})
+        }
     }
 }
 
