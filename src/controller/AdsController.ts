@@ -64,7 +64,7 @@ const AdsController ={
             
             const ad = await prisma.ad.findUniqueOrThrow({ where: { id } })
             
-            return res.json(ad.discord)
+            return res.json({discord: ad.discord})
         } catch (error) {
             return res.status(500).json({message: 'Failed access database'})
         }
