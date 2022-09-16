@@ -1,5 +1,7 @@
 // Import prisma to uselly how ORM
 import { PrismaClient } from '@prisma/client'
+import { convertHoursNumberToString } from '../util/convertHoursNumberToString'
+import { convertHoursStringToNumber } from '../util/convertHoursStringToNumber'
 // instances prisma 
 const prisma = new PrismaClient({
     log: ['query']
@@ -10,16 +12,28 @@ const AdsController ={
     getAds: async (req: any, res: any) => {
         try {
             const ads = await prisma.ad.findMany({
-                include: {
-                    game: {
-                        select: { 
-                            title: true 
-                        }
-                    }
-                }
+                select: {
+                    id: true,
+                    gameId: true,
+                    name: true,
+                    yearsPlaying: true,
+                    hourStart: true,
+                    hourEnd: true,
+                    weekDays: true,
+                    useVoiceChannel: true,
+                    game: true,
+                },
+                orderBy: { createdAt: 'desc' } 
             })
 
-            return res.json(ads)
+            return res.json(ads.map(ad => {
+                return {
+                    ...ad,
+                    hourStart: convertHoursNumberToString(ad.hourStart),
+                    hourEnd: convertHoursNumberToString(ad.hourEnd),
+                    weekDays: ad.weekDays.split(',')
+                }
+            }))
         } catch (error) {
             return res.status(500).json({message: 'Failed access database'})
         }
@@ -50,6 +64,8 @@ const AdsController ={
             return res.json(ads.map(ad => {
                 return {
                     ...ad,
+                    hourStart: convertHoursNumberToString(ad.hourStart),
+                    hourEnd: convertHoursNumberToString(ad.hourEnd),
                     weekDays: ad.weekDays.split(',')
                 }
             }))
@@ -68,6 +84,38 @@ const AdsController ={
         } catch (error) {
             return res.status(500).json({message: 'Failed access database'})
         }
-    }   
+    },
+    
+    adCreate: async (req: any, res: any) => {
+        try {
+            const { id:gameId } = req.params
+
+            const {
+                name,
+                useVoiceChannel,
+                weekDays,
+                yearsPlaying,
+                hourStart,
+                hourEnd,
+                discord 
+            } = req.body
+
+            const newAd = {
+                gameId,
+                name,
+                useVoiceChannel,
+                weekDays,
+                yearsPlaying,
+                hourStart: convertHoursStringToNumber(hourStart),
+                hourEnd: convertHoursStringToNumber(hourEnd),
+                discord 
+            }
+            const adAmount = await prisma.ad.create({ data: newAd })
+
+            return res.status(201).json(adAmount)
+        } catch (error) {
+            return res.status(500).json({message: 'Failed access database'})
+        }
+    }
 }
 export default AdsController
