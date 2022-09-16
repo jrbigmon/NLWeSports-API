@@ -11,9 +11,7 @@ import cors from 'cors'
 
 //middlewares
 app.use(express.json())
-app.use(cors({
-    origin: 'http://127.0.0.1:5173/*'
-}))
+app.use(cors())
 
 // routes
 import AdsRouter from './router/AdsRouter'
