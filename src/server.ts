@@ -6,6 +6,9 @@ const app = express()
 const port = 3000
 const baseURL = "/nlw/api"
 
+//middlewares
+app.use(express.json())
+
 // routes
 import AdsRouter from './router/AdsRouter'
 import GamesRouter from './router/GamesRouter'
