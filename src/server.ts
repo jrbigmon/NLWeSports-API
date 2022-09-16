@@ -6,8 +6,14 @@ const app = express()
 const port = 3000
 const baseURL = "/nlw/api"
 
+//import middlewares
+import cors from 'cors'
+
 //middlewares
 app.use(express.json())
+app.use(cors({
+    origin: 'http://127.0.0.1:5173/*'
+}))
 
 // routes
 import AdsRouter from './router/AdsRouter'
