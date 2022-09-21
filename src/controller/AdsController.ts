@@ -2,6 +2,7 @@
 import { PrismaClient } from '@prisma/client'
 import { convertHoursNumberToString } from '../util/convertHoursNumberToString'
 import { convertHoursStringToNumber } from '../util/convertHoursStringToNumber'
+import { addComaInString } from '../util/addComaInString'
 // instances prisma 
 const prisma = new PrismaClient({
     log: ['query']
@@ -14,6 +15,7 @@ const AdsController ={
             const ads = await prisma.ad.findMany({
                 select: {
                     id: true,
+                    discord: true,
                     gameId: true,
                     name: true,
                     yearsPlaying: true,
@@ -88,9 +90,9 @@ const AdsController ={
     
     adCreate: async (req: any, res: any) => {
         try {
-            const { id:gameId } = req.params
-
+            console.log(req.body)
             const {
+                gameId,
                 name,
                 useVoiceChannel,
                 weekDays,
@@ -104,7 +106,7 @@ const AdsController ={
                 gameId,
                 name,
                 useVoiceChannel,
-                weekDays,
+                weekDays: addComaInString(weekDays),
                 yearsPlaying,
                 hourStart: convertHoursStringToNumber(hourStart),
                 hourEnd: convertHoursStringToNumber(hourEnd),
