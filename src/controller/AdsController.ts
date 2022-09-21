@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { convertHoursNumberToString } from '../util/convertHoursNumberToString'
 import { convertHoursStringToNumber } from '../util/convertHoursStringToNumber'
 import { addComaInString } from '../util/addComaInString'
+import { getArrayAndAplyChangeNumberToString } from '../util/changeWeekDaysNumberToString'
 // instances prisma 
 const prisma = new PrismaClient({
     log: ['query']
@@ -33,7 +34,7 @@ const AdsController ={
                     ...ad,
                     hourStart: convertHoursNumberToString(ad.hourStart),
                     hourEnd: convertHoursNumberToString(ad.hourEnd),
-                    weekDays: ad.weekDays.split(',')
+                    weekDays: getArrayAndAplyChangeNumberToString(ad.weekDays.split(','))
                 }
             }))
         } catch (error) {
@@ -50,6 +51,7 @@ const AdsController ={
                 select: {
                     id: true,
                     gameId: true,
+                    discord: true,
                     hourStart: true,
                     hourEnd: true,
                     name: true,
@@ -68,7 +70,7 @@ const AdsController ={
                     ...ad,
                     hourStart: convertHoursNumberToString(ad.hourStart),
                     hourEnd: convertHoursNumberToString(ad.hourEnd),
-                    weekDays: ad.weekDays.split(',')
+                    weekDays: getArrayAndAplyChangeNumberToString(ad.weekDays.split(','))
                 }
             }))
         } catch (error) {
