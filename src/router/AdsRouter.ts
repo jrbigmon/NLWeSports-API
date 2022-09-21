@@ -9,6 +9,6 @@ import AdsController from '../controller/AdsController'
 router.get('/ads', AdsController.getAds)
 router.get('/games/:id/ads', AdsController.getAdsByGameId)
 router.get('/ads/:id/discord', AdsController.getDiscordByAdId)
-router.post('/ads/:id', AdsController.adCreate)
+router.post('/ads', AdsController.adCreate)
 
 export default router
