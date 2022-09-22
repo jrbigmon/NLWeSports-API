@@ -77,18 +77,6 @@ const AdsController ={
             return res.status(500).json({message: 'Failed access database'})
         }
     },
-
-    getDiscordByAdId: async( req: any, res: any) => {
-        try {
-            const { id } = req.params
-            
-            const ad = await prisma.ad.findUniqueOrThrow({ where: { id } })
-            
-            return res.json({discord: ad.discord})
-        } catch (error) {
-            return res.status(500).json({message: 'Failed access database'})
-        }
-    },
     
     adCreate: async (req: any, res: any) => {
         try {
