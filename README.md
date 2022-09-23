@@ -177,3 +177,83 @@ async function SubmitForm (event:any, props:Ad) {
 }
 export default SubmitForm
 ```
+Para o tempo de jogo, tanto inicio como termino, existem funções para converter esses valores para numérico inteiro para inserir no banco de dados e depois o transforma novamente para string para os métodos de select (GET)
+- POST
+```typescript
+// 18:00 to 1080
+export function convertHoursStringToNumber(hoursString: string){
+    const [hours, minutes] = hoursString.split(':', 2).map(i => parseInt(i))
+    
+    return  Math.round((hours * 60) + (minutes * 60 / 100)) 
+}
+```
+- GET
+```typescript
+// 1080 to 18:00
+export function convertHoursNumberToString (hoursAmount: number) {
+    let [hours, minutes] = String(
+            (hoursAmount / 60)
+        ).split('.', 2)
+
+        !minutes ? minutes = '0' : ''
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padEnd(2, '0').slice(0, 2)}`
+}
+```
+Para os dias da semana, também foi criado uma lógica para armazenar no banco de dados uma string separada por virgula cada char dentro dela
+- POST
+```ts
+// "0123456" to "0,1,2,3,4,5,6"
+export function addComaInString(textWithOutComa: string){
+    let textWithComa = ''
+    for (let i = 0; i < textWithOutComa.length; i++){
+        if(i < textWithOutComa.length - 1){
+            textWithComa += `${textWithOutComa[i]},`
+        } else {
+            textWithComa += `${textWithOutComa[i]}`
+        }
+    }
+    return textWithComa
+}
+```
+- GET
+```ts
+// "0,1,2" to ["Domingo", "Segunda-feira", "Terça-feira"]
+function changeWeekDaysNumberToString(dayInNumber: string){
+    if(dayInNumber === "0") return 'Domingo'
+    if(dayInNumber === "1") return 'Segunda-feira'
+    if(dayInNumber === "2") return 'Terça-feira'
+    if(dayInNumber === "3") return 'Quarta-feira'
+    if(dayInNumber === "4") return 'Quinta-feira'
+    if(dayInNumber === "5") return 'Sexta-feira'
+    if(dayInNumber === "6") return 'Sabado'
+}
+export function getArrayAndAplyChangeNumberToString(weekDays: any){
+    const weekDaysFormatted = weekDays.map((dayInNumber: string) => {
+        return changeWeekDaysNumberToString(dayInNumber)
+    })
+    return weekDaysFormatted
+}
+```
+
+## Ferramentas utilizadas
+### Dev
+```json
+"devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "prisma": "^4.3.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.8.3"
+ }
+```
+### Production
+```json
+"dependencies": {
+    "@prisma/client": "^4.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.1"
+ }
+```
+
+## Muito obrigado!
