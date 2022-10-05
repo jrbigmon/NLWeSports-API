@@ -65,7 +65,7 @@ npm start
 }
 ```
 ## Ver todas as publicações 
-### http://localhost:3000/nlw/api/games/ads
+### http://localhost:3000/nlw/api/ads
 ```json
 [
   {
