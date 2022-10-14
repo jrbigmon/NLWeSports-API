@@ -28,6 +28,8 @@ npm start
 ```
 
 ## Rotas para utilização da api, métodos - GET
+
+## Ver todos os Jogos
 ### http://localhost:3000/nlw/api/games
 ```json
 [
@@ -49,6 +51,7 @@ npm start
   },
 ]  
 ```
+## Buscar um único jogo com base no id dele
 ### http://localhost:3000/nlw/api/games/{id}
 ### http://localhost:3000/nlw/api/games/8a69e8e5-b22e-46d8-a0f9-300b8c7bf89a
 ```json
@@ -61,7 +64,8 @@ npm start
     }
 }
 ```
-### http://localhost:3000/nlw/api/games/ads
+## Ver todas as publicações 
+### http://localhost:3000/nlw/api/ads
 ```json
 [
   {
@@ -87,6 +91,7 @@ npm start
   },
 ]
 ```
+## Ver todas as publicações de um jogo através do id dele
 ### http://localhost:3000/nlw/api/games/{gameId}/ads
 ### http://localhost:3000/nlw/api/games/e3d3bfaf-aeda-4d89-b827-37df992cf86d/ads
 ```json
@@ -114,6 +119,7 @@ npm start
   }
 ]
 ```
+## Criação de uma publicação
 ## Utilização da api, método - POST
 ### http://localhost:3000/nlw/api/ads
 body
